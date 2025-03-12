@@ -1,9 +1,9 @@
 #include "LibraryManagement.h"
 #include <string>
 
-bool validStringToInt(string s) {
+bool validISBN(string s) {
     try {
-        if(s.length() > 13) {
+        if(s.length() != 13) {
             cout << "Invalid ISBN length, please enter one that is 13 characters";
         }
         int i = stoi(s);
