@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+
 using namespace std;
 
 class Book {
@@ -18,28 +19,38 @@ class Book {
         void setAvailability(bool a) {
             availability = a;
         }
+        string getTitle() { return title; }
+        string getAuthor() { return author; }
         string getISBN() { return ISBN; }
+       
 };
 
 class User {
     protected:
         string name;
         int userID;
+        vector<string> books;
     public:
         User(string n, int i): name(n), userID(i) {}
 
         string getName() { return name; }
         int getID() { return userID; }
+        vector<string> getBooks() { return books; }
+        string getBook(int i) { return books[i]; }
+        void addBook(string b) { books.push_back(b); }
+        void removeBook(int i) {
+            books.erase(books.begin() + i);
+        }
 };
 
 class Student : public User {
 public:
-    Student(string& n, int& i) : User(n, i) {}
+    Student(string &n, int &i) : User(n, i) {}
 };
 
 class Faculty : public User {
 public:
-    Faculty(string& n, int& i) : User(n, i) {}
+    Faculty(string &n, int &i) : User(n, i) {}
 };
 
 class Library {
@@ -66,6 +77,38 @@ class Library {
                 }
             }
             books.push_back(make_unique<Book>(n, a, i, true));
+        }
+        Book *searchBookTitle(string n) {
+            for (unique_ptr<Book>& book : books) {
+                if (book->getTitle() == n) {
+                    return book.get();
+                }
+            }
+            return nullptr;
+        }
+        Book* searchBookAuthor(string n) {
+            for (unique_ptr<Book>& book : books) {
+                if (book->getAuthor() == n) {
+                    return book.get();
+                }
+            }
+            return nullptr;
+        }
+        Book* searchBookISBN(string n) {
+            for (unique_ptr<Book>& book : books) {
+                if (book->getISBN() == n) {
+                    return book.get();
+                }
+            }
+            return nullptr;
+        }
+        User* searchUserID(int id) {
+            for (unique_ptr<User>& user : users) {
+                if (user->getID() == id) {
+                    return user.get();
+                }
+            }
+            return nullptr;
         }
 };
 

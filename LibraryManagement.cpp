@@ -1,17 +1,19 @@
 #include "LibraryManagement.h"
 #include <string>
 
+enum MenuOptions { ADD, REGISTER, SEARCH, BORROW, RETURN, EXIT };
+
+enum BookSearchOptions { TITLE, AUTHOR, ISBN };
+
 bool validISBN(string s) {
     if(s.length() < 13) {
         cout << "Error, please enter an ISBN of valid length 13";
-        return true;
-    }
-    else {
         return false;
     }
+    else {
+        return true;
+    }
 }
-
-enum MenuOptions { ADD, REGISTER, SEARCH, BORROW, RETURN, EXIT};
 
 void displayMainMenu() {
     cout << "Welcome to the Library:" << endl;
@@ -23,8 +25,15 @@ void displayMainMenu() {
     cout << "5. Exit" << endl;
 }
 
-int getMenuOption(int option) {
-    while(option < 1 || option > 10) {
+void displayBookSearchMenu() {
+    cout << "Select your preferred search option:" << endl;
+    cout << "1. Title" << endl;
+    cout << "2. Author" << endl;
+    cout << "3. ISBN" << endl;
+}
+
+int getMenuOption(int option, int max) {
+    while(option < 1 || option > max) {
         cout << "\n Invalid menu option, please enter a choice of 1-6";
         cin >> option;
     }
