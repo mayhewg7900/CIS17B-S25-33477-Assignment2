@@ -16,7 +16,8 @@ int main() {
     string bookISBN;
 
     // Stores the current menu option chosen
-    int menuOption;
+    string menuOption;
+    int option;
 
     // Stores the current userID and name
     int userID;
@@ -37,16 +38,17 @@ int main() {
         // Get the menu option
         cin >> menuOption;
         // Validate the menu option
-        menuOption = getMenuOption(menuOption,7);
+        option = getMenuOption(menuOption,7);
         // Cast the menu option to type MenuOptions
-        mainOption = MenuOptions(menuOption-1);
+        mainOption = MenuOptions(option - 1);
         // If user choice is...
         switch(mainOption) {
             case ADD:
                 cout << "Please enter the book name: ";
-                cin >> bookName;
+                cin.ignore();
+                getline(cin, bookName);
                 cout << "Please enter the book author: ";
-                cin >> bookAuthor;
+                getline(cin, bookAuthor);
                 cout << "Please enter the ISBN: ";
                 cin >> bookISBN;
                 // While ISBN length is not 13...
@@ -58,10 +60,11 @@ int main() {
                 break;
             case REGISTER:
                 cout << "Are you student or faculty? 1 for faculty, 2 for student: ";
-                int studentOrFaculty;
-                cin >> studentOrFaculty;
+                cin >> menuOption;
+                cin.ignore();
                 // If the choice was faculty...
-                if(studentOrFaculty == 1) {
+                option = getMenuOption(menuOption,2);
+                if(option-1) {
                     cout << "Enter your name: ";
                     cin >> userName;
                     library.registerFaculty(userName, id);
@@ -69,28 +72,26 @@ int main() {
                     id++;
                 }
                 // Else the choice was student
-                else if (studentOrFaculty == 2) {
+                else {
                     cout << "Enter your name: ";
                     cin >> userName;
                     library.registerStudent(userName, id);
                     cout << "Successfully registered student " << userName << " with ID number:" << id << endl;
                     id++;
                 }
-                else {
-                    cout << "Invalid entry, please select student (1) or faculty (2) next time. Returning to the main menu..." << endl;
-                }
                 break;
             case SEARCH:
                 // Display the search menu
                 displayBookSearchMenu();
                 cin >> menuOption;
-                menuOption = getMenuOption(menuOption,3);
-                searchOption = BookSearchOptions(menuOption-1);
+                option = getMenuOption(menuOption,3);
+                searchOption = BookSearchOptions(option-1);
                 // If search option is...
                 switch(searchOption) {
                     case TITLE:
                         cout << "Please enter the title: ";
-                        cin >> bookName;
+                        cin.ignore();
+                        getline(cin, bookName);
                         bookPtr = library.searchBookTitle(bookName);
                         // If there is a valid book...
                         if(bookPtr) {
@@ -110,6 +111,8 @@ int main() {
 
                     case AUTHOR:
                         cout << "Please enter the author: ";
+                        cin.ignore();
+                        getline(cin, bookName);
                         cin >> bookAuthor;
                         bookPtr = library.searchBookAuthor(bookAuthor);
                         // If there is a valid book...
@@ -156,9 +159,9 @@ int main() {
                     // If the book is available...
                     if(bookPtr->getAvailability()) {
                         cout << bookPtr->getTitle() << " is available for checkout! Press 1 to check out, or 2 to cancel" << endl;
-                        cin >> menuOption;
+                        cin >> option;
                         // If the user wants to check out...
-                        if(menuOption == 1) {
+                        if(option == 1) {
                             cout << "Please enter your ID: ";
                             cin >> userID;
                             userPtr = library.searchUserID(userID);
@@ -172,7 +175,7 @@ int main() {
                             }
                         }
                         // If the user wants to cancel...
-                        else if(menuOption == 2) {
+                        else if(option == 2) {
                             cout << "Returning to the main menu..." << endl;
                         }
                         // Else, option is invalid, return to the menu

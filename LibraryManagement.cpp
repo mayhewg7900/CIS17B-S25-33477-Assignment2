@@ -27,10 +27,19 @@ void displayBookSearchMenu() {
 }
 
 // Gets the menu options and validates it, given a max amount of menu options available
-int getMenuOption(int option, int max) {
-    while(option < 1 || option > max) {
-        cout << "\n Invalid menu option, please enter a choice of 1 - " << max << ")" << endl;
-        cin >> option;
-    }
-    return option;
+int getMenuOption(string option, int max) {
+    bool menuValid;
+    do {
+        try {
+            int userOption = stoi(option);
+            if(userOption > 0 && userOption < max) {
+                menuValid = true;
+                return userOption;
+            }
+        } catch(const invalid_argument &e) {
+            cin.clear();
+            getline(cin, option);
+        }
+    } while(!menuValid);
+    return 0;
 }
