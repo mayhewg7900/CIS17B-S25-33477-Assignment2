@@ -49,11 +49,11 @@ class Library {
     vector<unique_ptr<Book>> books;
 
     public:
-        // Adding derived student class to the vector with unique pointers to the User class instances
+        // Adding a new pointer to a new derived Student class to the vector with unique pointers to the User class instances
         void registerStudent(string n, int i) {
             users.push_back(make_unique<Student>(n, i));
           }
-        // Adding derived Faculty class to the vector with unique pointers to the User class instances
+        // Adding a new pointer to a new derived Faculty class to the vector with unique pointers to the User class instances
         void registerFaculty(string n, int i) {
             users.push_back(make_unique<Student>(n, i));
         }
